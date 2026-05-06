@@ -2,10 +2,13 @@ package org.alvesneto.accounts.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.alvesneto.accounts.constants.AccountsConstants;
+import org.alvesneto.accounts.dto.AccountsDto;
 import org.alvesneto.accounts.dto.CustomerDto;
 import org.alvesneto.accounts.entity.Accounts;
 import org.alvesneto.accounts.entity.Customer;
 import org.alvesneto.accounts.exception.CustomerAlreadyExistsException;
+import org.alvesneto.accounts.exception.ResourceNotFoundException;
+import org.alvesneto.accounts.mapper.AccountsMapper;
 import org.alvesneto.accounts.mapper.CustomerMapper;
 import org.alvesneto.accounts.repository.AccountsRepository;
 import org.alvesneto.accounts.repository.CustomerRepository;
@@ -44,6 +47,22 @@ public class AccountServiceImpl implements IAccountService {
         accounts.setAccountType(AccountsConstants.SAVINGS);
         accounts.setBranchAddress(AccountsConstants.ADDRESS);
         return accounts;
+    }
+
+    @Override
+    public CustomerDto fetchaAccountByMobileNumber(String mobileNumber) {
+       Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer",  "mobileNumber", mobileNumber)
+        );
+
+        Accounts  accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException("Account",  "customerId", customer.getCustomerId().toString())
+        );
+
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
+
+        return customerDto;
     }
 
 }
