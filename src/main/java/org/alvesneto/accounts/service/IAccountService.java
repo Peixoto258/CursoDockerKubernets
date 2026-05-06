@@ -4,5 +4,6 @@ import org.alvesneto.accounts.dto.CustomerDto;
 
 public interface IAccountService {
     void createAccount(CustomerDto customerDto);
-    public CustomerDto fetchaAccountByMobileNumber(String mobileNumber);
+    public CustomerDto fetchAccountByMobileNumber(String mobileNumber);
+    boolean updateAccount(CustomerDto customerDto);
 }
