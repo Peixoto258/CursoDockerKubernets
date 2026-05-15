@@ -5,14 +5,14 @@ import org.alvesneto.accounts.entity.Accounts;
 
 public class AccountsMapper {
     public static AccountsDto mapToAccountsDto(Accounts accounts, AccountsDto accountsDto) {
-        accountsDto.setAccoutNumber(accounts.getAccoutNumber());
+        accountsDto.setAccountNumber(accounts.getAccoutNumber());
         accountsDto.setAccountType(accounts.getAccountType());
         accountsDto.setBranchAddress(accounts.getBranchAddress());
         return accountsDto;
     }
 
     public static Accounts mapToAccounts(AccountsDto accountsDto, Accounts accounts) {
-        accounts.setAccoutNumber(accountsDto.getAccoutNumber());
+        accounts.setAccoutNumber(accountsDto.getAccountNumber());
         accounts.setAccountType(accountsDto.getAccountType());
         accounts.setBranchAddress(accountsDto.getBranchAddress());
         return accounts;
